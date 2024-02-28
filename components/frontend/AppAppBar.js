@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
@@ -146,8 +147,8 @@ function AppAppBar({ mode, toggleColorMode }) {
                 variant="text"
                 size="small"
                 component="a"
-                href="/material-ui/getting-started/templates/sign-in/"
-                target="_blank"
+                href="/sign-in"
+                // target="_blank"
               >
                 Sign in
               </Button>
@@ -156,8 +157,8 @@ function AppAppBar({ mode, toggleColorMode }) {
                 variant="contained"
                 size="small"
                 component="a"
-                href="/material-ui/getting-started/templates/sign-up/"
-                target="_blank"
+                href="/sign-up"
+                // target="_blank"
               >
                 Sign up
               </Button>
