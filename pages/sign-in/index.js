@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { loginApi } from '../../url/Api';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 function Copyright(props) {
   return (
@@ -33,19 +34,24 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    const payload = {
-      email: data.get('email'),
-      password: data.get('password'),
+  const router = useRouter()
+  const handleSubmit = async(event) => {
+    try {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const payload = {
+        email: data.get('email'),
+        password: data.get('password'),
+      }
+
+      const login =await axios.post(loginApi, payload)
+      localStorage.setItem('token', JSON.stringify(login?.data?.token))
+      localStorage.setItem('userId', JSON.stringify(login?.data?.id))
+      router.push('/dashboard')
+      
+    } catch (error) {
+      console.log({ error })
     }
-    const login = await axios.post(loginApi, payload)
-    console.log({ login })
   };
 
   return (

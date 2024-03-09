@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 // import { Link } from "next/link";
@@ -16,6 +16,8 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import axios from "axios";
+import { userApi } from "../../url/Api";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -40,6 +42,33 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const [userData, setuserData] = useState(null);
+  const tokenAccessData =
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("token"))
+      : null;
+  console.log({ tokenAccessData });
+  const userId = localStorage.getItem("userId");
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${tokenAccessData}`,
+    },
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, [tokenAccessData]);
+
+  const getUserData = async () => {
+    try {
+      const response = await axios.get(userApi + userId + "/roles", config);
+      console.log({ response: response.data });
+      setuserData(response?.data);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
 
   return (
     <Box
@@ -107,10 +136,10 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Ed Roh
+                  {userData?.name}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  VP Fancy Admin
+                  {userData?.email}
                 </Typography>
               </Box>
             </Box>
