@@ -48,7 +48,10 @@ const Sidebar = () => {
       ? JSON.parse(localStorage.getItem("token"))
       : null;
   console.log({ tokenAccessData });
-  const userId = localStorage.getItem("userId");
+  const userId =
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("userId"))
+      : null;
 
   const config = {
     headers: {

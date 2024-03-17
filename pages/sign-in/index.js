@@ -35,7 +35,7 @@ const defaultTheme = createTheme();
 
 export default function SignIn() {
   const router = useRouter()
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     try {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
@@ -44,11 +44,11 @@ export default function SignIn() {
         password: data.get('password'),
       }
 
-      const login =await axios.post(loginApi, payload)
+      const login = await axios.post(loginApi, payload)
       localStorage.setItem('token', JSON.stringify(login?.data?.token))
       localStorage.setItem('userId', JSON.stringify(login?.data?.id))
       router.push('/dashboard')
-      
+
     } catch (error) {
       console.log({ error })
     }
@@ -101,7 +101,7 @@ export default function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, backgroundColor: '#1565c0 !important' }}
             >
               Sign In
             </Button>
